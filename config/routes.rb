@@ -1,58 +1,36 @@
 Rails.application.routes.draw do
   #Tell Devise to use our registrations controller instead of the default
   devise_for :users, :controllers => { :sessions => "sessions", :registrations => "registrations" }
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  #Add proper route for my_current_user - get to action by calling localhost:3000/my_current_user.json
+  match '/my_current_user' => 'users#my_current_user', via: [:get]
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  #Add route to return random_users by calling localhost:3000/random_users.json
+  match '/random_users' => 'users#random_users', via: [:get]
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  #Add route to return show_current_user_profile (the user profile) by calling localhost:3000/users/[id].json
+  match '/users/:id' => 'users#show_current_user_profile', via: [:get]
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  #Add route for show_user_profile
+  match '/users/profile/:username' => 'users#show_user_profile', via: [:get]
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  #Add route for update_user action. Start action by calling localhost:3000/users/:id.json
+  match 'users/:id' => 'users#update_user', via: [:patch]
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  #Create route for follow action. Start the action by calling localhost:3000/follow.json?user_id=[id]
+  get '/follow' => "users#follow"
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+  #Create route for unfollow action. Start action by calling localhost:3000/unfollow.json?user_id=[id]
+  get '/unfollow' => "users#unfollow"
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
+  #Create route for followers action. Start action by calling localhost:3000/followers/[id].json
+  get '/followers/:id' => "users#followers"
 
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  #Create route for following action. Start action by calling localhost:3000/following/[id].json
+  get '/following/:id' => "users#following"
+
+  #Create route for is_following aciton. Access action by calling localhost:3000/users/:user_id/is_following.json
+  get 'users/:user_id/is_following' => "users#is_following"
+
+
 end
