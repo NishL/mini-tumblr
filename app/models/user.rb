@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
          :token_authenticatable
 
   has_many :authentication_tokens
+  #When a user gets deleted, their posts are also deleted
+  has_many :posts, :dependent => :destroy
 
   #Create custom method called followed_users_posts - responsible for 
   #returning all posts from users that we follow
